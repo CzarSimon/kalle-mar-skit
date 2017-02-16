@@ -7,8 +7,8 @@ import (
     _ "github.com/lib/pq"
 )
 
-func connectDB(config DBConfig) *sql.DB {
-    connStr := "temp conn str"
+func connectDB(conf DBConfig) *sql.DB {
+    connStr := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable", conf.host, conf.user, conf.pwd, conf.db)
     db, err := sql.Open("postgres", connStr)
     if err != nil {
         log.Fatal(err)
