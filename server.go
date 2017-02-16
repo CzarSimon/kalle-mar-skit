@@ -1,10 +1,15 @@
 package main
 
 import (
-   "fmt"
-   "log"
-   "net/http"
+  "database/sql"
+  "fmt"
+  "log"
+  "net/http"
 )
+
+type Env struct {
+  db *sql.DB
+}
 
 func registerVote(req http.Request, res *http.ResponseWriter) {
   msg := "Vote register"
