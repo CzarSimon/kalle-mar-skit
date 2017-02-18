@@ -18,6 +18,7 @@ func main() {
 
   http.Handle("/", http.FileServer(http.Dir(config.server.staticFolder)))
   http.HandleFunc("/vote", env.registerVote)
+  http.HandleFunc("/messages", env.getMessages)
 
   log.Println("Starting server on port " + config.server.port)
   err := http.ListenAndServe(":" + config.server.port, nil)
