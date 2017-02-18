@@ -37,3 +37,44 @@ func storeVote(vote string, db *sql.DB) error {
   }
   return nil
 }
+
+
+
+func (env *Env) getVoteCount(res http.ResponseWriter, req *http.Request) {
+  voteCount, err := retriveVoteCount(env.db)
+  if err != nil {
+    http.Error(res, err.Error(), http.StatusInternalServerError)
+    return
+  }
+  js, err := json.Marshal(voteCount)
+  if err != nil {
+    http.Error(res, err.Error(), http.StatusInternalServerError)
+    return
+  }
+  jsonRes(res, js)
+}
+
+
+type VoteCount struct {
+  Vote string
+  Count int64
+}
+
+func retriveVoteCount(db *sql.DB) ([]VoteCount, error) {
+  rows, err := db.Query("SELECT vote, COUNT(*) FROM votes WHERE vote='YES' or vote='NO' GROUP BY vote")
+  defer rows.Close()
+  if err != nil {
+    return nil, err
+  }
+  results := make([]VoteCount, 0)
+  var vote string
+  var count int64
+  for rows.Next() {
+    err = rows.Scan(&vote, &count)
+    if err != nil {
+      return nil, err
+    }
+    results = append(results, VoteCount{vote, count})
+  }
+  return results, nil
+}
