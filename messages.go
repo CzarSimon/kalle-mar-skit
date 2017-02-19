@@ -3,7 +3,9 @@ package main
 import (
   "database/sql"
   "encoding/json"
+  "io"
   "net/http"
+  "time"
 )
 
 type Message struct {
@@ -42,4 +44,31 @@ func retriveMessages(db *sql.DB) ([]Message, error) {
     messages = append(messages, Message{message, author, timestamp})
   }
   return messages, nil
+}
+
+func (env *Env) postMessage(res http.ResponseWriter, req *http.Request) {
+  decoder := json.NewDecoder(req.Body)
+  var message Message
+  if err := decoder.Decode(&message); err != io.EOF {
+    http.Error(res, err.Error(), http.StatusInternalServerError)
+    return
+  }
+  err := insertMessage(message, env.db)
+  if err != nil {
+    http.Error(res, err.Error(), http.StatusInternalServerError)
+    return
+  }
+  jsonStringRes(res, "Successfully inserted message")
+}
+
+func insertMessage(msg Message, db *sql.DB) error {
+  stmt, err := db.Prepare("INSERT INTO messages (message, author, timestamp) VALUES ($1, $2, $3)")
+  if err != nil {
+    return err
+  }
+  _, err = stmt.Exec(msg.Message, msg.Author, time.Now())
+  if err != nil {
+    return err
+  }
+  return nil
 }

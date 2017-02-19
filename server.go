@@ -19,6 +19,7 @@ func main() {
   http.Handle("/", http.FileServer(http.Dir(config.server.staticFolder)))
   http.HandleFunc("/vote", env.registerVote)
   http.HandleFunc("/vote-count", env.getVoteCount)
+  http.HandleFunc("/post-message", env.postMessage)
   http.HandleFunc("/messages", env.getMessages)
 
   log.Println("Starting server on port " + config.server.port)
