@@ -1,21 +1,35 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Router, Route, browserHistory } from 'react-router';
+import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import createLogger from 'redux-logger';
 
-class App extends Component {
+import * as reducers from './reducers';
+import VotingContainer from './voting/containers/main';
+import ResultsConatainer from './results/containers/main';
+
+const logger = createLogger();
+const createStoreWithMiddleware = applyMiddleware(logger, thunk)(createStore);
+const reducer = combineReducers({
+  ...reducers,
+  routing: routerReducer
+});
+const store = createStoreWithMiddleware(reducer);
+const history = syncHistoryWithStore(browserHistory, store);
+
+
+
+export default class App extends Component {
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <Provider store={store}>
+        <Router history={history}>
+          <Route path="/" component={VotingContainer} />
+          <Route path="/results" component={ResultsConatainer} />
+        </Router>
+      </Provider>
     );
   }
 }
-
-export default App;

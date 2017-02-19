@@ -1,0 +1,5 @@
+export const POST_VOTE = "POST_VOTE"
+export const FETCH_RESULTS = "FETCH_RESULTS"
+export const RECIVE_RESULTS = "RECIVE_RESULTS"
+export const POST_MESSAGE = "POST_MESSAGE"
+export const RECIVE_MESSAGES = "RECIVE_MESSAGES"
