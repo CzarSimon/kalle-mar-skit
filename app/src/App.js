@@ -8,7 +8,7 @@ import createLogger from 'redux-logger';
 
 import * as reducers from './reducers';
 import VotingContainer from './voting/containers/main';
-import ResultsConatainer from './results/containers/main';
+import ResultsContainer from './results/containers/main';
 
 const logger = createLogger();
 const createStoreWithMiddleware = applyMiddleware(logger, thunk)(createStore);
@@ -27,7 +27,7 @@ export default class App extends Component {
       <Provider store={store}>
         <Router history={history}>
           <Route path="/" component={VotingContainer} />
-          <Route path="/results" component={ResultsConatainer} />
+          <Route path="/results" component={ResultsContainer} />
         </Router>
       </Provider>
     );

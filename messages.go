@@ -6,6 +6,7 @@ import (
   "io"
   "net/http"
   "time"
+  "log"
 )
 
 type Message struct {
@@ -45,14 +46,17 @@ func retriveMessages(db *sql.DB) ([]Message, error) {
   }
   return messages, nil
 }
-
+type IncomingMessage struct {
+  Message, Author string
+}
 func (env *Env) postMessage(res http.ResponseWriter, req *http.Request) {
   decoder := json.NewDecoder(req.Body)
-  var message Message
+  var message IncomingMessage
   if err := decoder.Decode(&message); err != io.EOF {
     http.Error(res, err.Error(), http.StatusInternalServerError)
     return
   }
+  log.Println(message)
   err := insertMessage(message, env.db)
   if err != nil {
     http.Error(res, err.Error(), http.StatusInternalServerError)

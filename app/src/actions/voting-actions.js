@@ -12,7 +12,7 @@ export const fetchResults = () => {
   return dispatch => {
     return fetch('http://kallemårskit.org/vote-count')
     .then(res => res.json())
-    .then(res => dispatch(reciveResults()))
+    .then(res => dispatch(reciveResults(res)))
   }
 }
 
