@@ -1,6 +1,6 @@
 import * as types from './action-types'
 import { createAction } from 'redux-actions'
-import { createHttpObject } from '../methods/helper-methods'
+import { createHttpObject, transformRestults } from '../methods/helper-methods'
 
 
 export const reciveResults = createAction(
@@ -12,6 +12,7 @@ export const fetchResults = () => {
   return dispatch => {
     return fetch('http://kallemårskit.org/vote-count')
     .then(res => res.json())
+    .then(res => transformRestults(res))
     .then(res => dispatch(reciveResults(res)))
   }
 }
