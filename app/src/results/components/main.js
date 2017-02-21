@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Tabs from './tabs'
 import ResultChart from './result-chart'
+import MediaCoverage from './media-coverage'
 import { mostlyYes } from '../../methods/helper-methods'
 import { content, font } from '../../styles/styles'
 
@@ -24,7 +25,7 @@ export default class Results extends Component {
         component = <h1>Messages</h1>
         break
       case 'media':
-        component = <h1>Media</h1>
+        component = <MediaCoverage />
         break
       default:
         component = <ResultChart results={results} />

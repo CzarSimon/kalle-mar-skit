@@ -41,6 +41,6 @@ export const content = (isPortrait = portraitMode()) => {
     width: makeLength(100 - 2 * horizontalMargin),
     marginLeft: makeLength(horizontalMargin),
     marginRight: makeLength(horizontalMargin),
-    marginTop: '5vh'
+    marginTop: '3vh'
   }
 }

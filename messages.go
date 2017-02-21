@@ -49,6 +49,7 @@ func retriveMessages(db *sql.DB) ([]Message, error) {
 type IncomingMessage struct {
   Message, Author string
 }
+
 func (env *Env) postMessage(res http.ResponseWriter, req *http.Request) {
   decoder := json.NewDecoder(req.Body)
   var message IncomingMessage
@@ -65,7 +66,7 @@ func (env *Env) postMessage(res http.ResponseWriter, req *http.Request) {
   jsonStringRes(res, "Successfully inserted message")
 }
 
-func insertMessage(msg Message, db *sql.DB) error {
+func insertMessage(msg IncomingMessage, db *sql.DB) error {
   stmt, err := db.Prepare("INSERT INTO messages (message, author, timestamp) VALUES ($1, $2, $3)")
   if err != nil {
     return err
