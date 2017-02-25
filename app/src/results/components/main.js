@@ -2,20 +2,11 @@ import React, { Component } from 'react'
 import Tabs from './tabs'
 import ResultChart from './result-chart'
 import MediaCoverage from './media-coverage'
-import { mostlyYes } from '../../methods/helper-methods'
 import { content, font } from '../../styles/styles'
-
-const styles = {
-  text: {
-    textAlign: 'center',
-    fontSize: font.size.huge
-  }
-}
 
 export default class Results extends Component {
   render() {
     const { selectedTab, selectTab, results } = this.props
-    const resultHeading = (mostlyYes(results)) ? "Kalle mår skit" : "Killen mår bra"
     let component
     switch(selectedTab) {
       case 'chart':
@@ -32,7 +23,6 @@ export default class Results extends Component {
     }
     return (
       <div style={{...content()}}>
-        <h1 style={styles.text}>Folkets röst: {resultHeading}!</h1>
         <Tabs selectTab={selectTab} selectedTab={selectedTab} />
         {component}
       </div>

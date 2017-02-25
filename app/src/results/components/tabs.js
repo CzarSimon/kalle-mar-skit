@@ -5,12 +5,15 @@ const styles = {
   tabGroup: {
     width: '100%'
   },
-  tab: {
-    width: '33.33%'
+  smallTab: {
+    width: '30%'
+  },
+  bigTab: {
+    width: '40%'
   }
 }
 
-const selectStyle = (isSelected) => (isSelected) ? {...styles.tab, backgroundColor: '#00F'} : styles.tab
+const selectStyle = (isSelected, style) => (isSelected) ? {...style, backgroundColor: '#00F'} : style
 
 export default class Tabs extends Component {
   handleSelect = (tabName) => {
@@ -22,17 +25,17 @@ export default class Tabs extends Component {
         <div style={styles.tabGroup}>
           <Button
             text='Resultat'
-            customStyles={selectStyle('chart' === selectedTab)}
+            customStyles={selectStyle('chart' === selectedTab, styles.smallTab)}
             handleClick={() => this.handleSelect('chart')}
           />
           <Button
             text='Kommentarer'
-            customStyles={selectStyle('comments' === selectedTab)}
+            customStyles={selectStyle('comments' === selectedTab, styles.bigTab)}
             handleClick={() => this.handleSelect('comments')}
           />
           <Button
-            text='Mediebevakning'
-            customStyles={selectStyle('media' === selectedTab)}
+            text='Media'
+            customStyles={selectStyle('media' === selectedTab, styles.smallTab)}
             handleClick={() => this.handleSelect('media')}
           />
         </div>
